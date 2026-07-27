@@ -1,0 +1,16 @@
+# Copyright (c) 2026-Present Diagrid Inc.
+# SPDX-License-Identifier: BUSL-1.1
+
+# Run on Diagrid Catalyst (managed sidecar, managed workflow + agent-registry):
+#   diagrid dev run -f catalyst.yaml --project <your-project>
+version: 1
+common:
+  logLevel: info
+  appLogDestination: console
+  enableAppHealthCheck: false
+apps:
+  - appID: power-grid
+    appDirPath: ./
+    command: ["go", "run", "."]
+    env:
+      GOWORK: "off" # build this example standalone (ignore any parent go.work)

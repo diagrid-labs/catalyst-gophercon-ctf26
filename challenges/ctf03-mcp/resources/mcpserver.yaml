@@ -1,0 +1,25 @@
+# Copyright (c) 2026-Present Diagrid Inc.
+# SPDX-License-Identifier: BUSL-1.1
+
+# Local MCP server resource for `dapr run`, pointing at a locally-running
+# park-systems (dev profile: default port 8080, bearer token "dev-token").
+#
+# On Diagrid Catalyst, do NOT ship this file — create a managed, scoped MCP
+# server instead (the authoritative path):
+#   diagrid mcpserver create park-systems --project <project> \
+#     --url https://park.<domain>/mcp --transport streamable-http --scope security-grid
+# and set the "Authorization: Bearer <token>" header (check
+# `diagrid mcpserver create --help` for the exact auth/header flag).
+#
+# NOTE: confirm the streamableHTTP/header schema against your Dapr version.
+apiVersion: dapr.io/v1alpha1
+kind: MCPServer
+metadata:
+  name: park-systems
+spec:
+  endpoint:
+    streamableHTTP:
+      url: http://host.docker.internal:8080/mcp
+      headers:
+        - name: Authorization
+          value: "Bearer dev-token"

@@ -1,0 +1,27 @@
+# Copyright (c) 2026-Present Diagrid Inc.
+# SPDX-License-Identifier: BUSL-1.1
+
+# Three agents, three App IDs — each appears as its own entry under Agents in
+# Catalyst. Run them together:
+#   diagrid dev run -f catalyst.yaml --project <your-project>
+version: 1
+common:
+  logLevel: info
+  appLogDestination: console
+  enableAppHealthCheck: false
+apps:
+  - appID: raptor-keeper
+    appDirPath: ./
+    command: ["go", "run", "./cmd/raptor-keeper"]
+    env:
+      GOWORK: "off"
+  - appID: grid-ranger
+    appDirPath: ./
+    command: ["go", "run", "./cmd/grid-ranger"]
+    env:
+      GOWORK: "off"
+  - appID: park-director
+    appDirPath: ./
+    command: ["go", "run", "./cmd/park-director"]
+    env:
+      GOWORK: "off"

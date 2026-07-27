@@ -1,0 +1,45 @@
+# ─────────────────────────────────────────────────────────────────────
+# Secrets — real flags/codes and env. NEVER commit these.
+# (Kept explicit so they stay ignored even after the /deploy/ rule below
+#  is removed post-event.)
+# ─────────────────────────────────────────────────────────────────────
+deploy/.env
+deploy/secrets/
+*.local.json
+
+# ─────────────────────────────────────────────────────────────────────
+# park-systems MCP server + organizer docs — organizer-only. Ignored FOR
+# NOW so the pre-event commit is challenges-only and the flag values /
+# unlock logic aren't exposed ahead of the CTF. Publish the server after
+# the event by deleting this block (or `git add -f <path>`).
+#
+# Leading "/" anchors each rule to the repo root, so the challenges' own
+# challenges/ctf04-capstone/cmd/ and .../internal/ dirs are NOT affected.
+# ─────────────────────────────────────────────────────────────────────
+/cmd/
+/internal/
+/deploy/
+/fixtures/
+/docs/
+/go.mod
+/go.sum
+/Dockerfile
+
+# ─────────────────────────────────────────────────────────────────────
+# Compiled Go binaries (a main package builds to a file named after its dir).
+# ─────────────────────────────────────────────────────────────────────
+/park-systems
+/challenges/ctf01-welcome/ctf01-welcome
+/challenges/ctf02-durable/ctf02-durable
+/challenges/ctf03-mcp/ctf03-mcp
+/challenges/ctf04-capstone/cmd/raptor-keeper/raptor-keeper
+/challenges/ctf04-capstone/cmd/grid-ranger/grid-ranger
+/challenges/ctf04-capstone/cmd/park-director/park-director
+*.exe
+*.test
+*.out
+
+# build dirs
+/out/
+/dist/
+/vendor/
