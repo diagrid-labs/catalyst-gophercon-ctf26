@@ -1,0 +1,6 @@
+# Replace park.example.com with your DNS name (an A record pointing at the VM's
+# static public IP). Caddy automatically obtains and renews a Let's Encrypt
+# certificate for it and proxies /mcp (and everything else) to the app.
+park.example.com {
+	reverse_proxy park-systems:8080
+}

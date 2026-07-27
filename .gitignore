@@ -1,29 +1,15 @@
 # ─────────────────────────────────────────────────────────────────────
-# Secrets — real flags/codes and env. NEVER commit these.
-# (Kept explicit so they stay ignored even after the /deploy/ rule below
-#  is removed post-event.)
+# Real secrets & the answer key — never commit, even to this private repo.
+#   - deploy/.env            real bearer token
+#   - deploy/secrets/        real flags.json (the production answer key)
+#   - docs/PLAN.md           design doc containing the real proposed flag values
+# Everything else (server code, deploy configs, fake dev fixtures, other docs)
+# is safe to push to this PRIVATE repo shared with organizers.
 # ─────────────────────────────────────────────────────────────────────
 deploy/.env
 deploy/secrets/
+docs/PLAN.md
 *.local.json
-
-# ─────────────────────────────────────────────────────────────────────
-# park-systems MCP server + organizer docs — organizer-only. Ignored FOR
-# NOW so the pre-event commit is challenges-only and the flag values /
-# unlock logic aren't exposed ahead of the CTF. Publish the server after
-# the event by deleting this block (or `git add -f <path>`).
-#
-# Leading "/" anchors each rule to the repo root, so the challenges' own
-# challenges/ctf04-capstone/cmd/ and .../internal/ dirs are NOT affected.
-# ─────────────────────────────────────────────────────────────────────
-/cmd/
-/internal/
-/deploy/
-/fixtures/
-/docs/
-/go.mod
-/go.sum
-/Dockerfile
 
 # ─────────────────────────────────────────────────────────────────────
 # Compiled Go binaries (a main package builds to a file named after its dir).

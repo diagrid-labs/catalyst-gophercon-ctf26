@@ -1,0 +1,33 @@
+# Single-VM deployment: park-systems listens on the compose network only;
+# Caddy terminates TLS on 443 and reverse-proxies to it. No load balancer.
+# See deploy/README.md.
+services:
+  park-systems:
+    build: ..
+    env_file: .env
+    environment:
+      # reachable by the caddy container over the compose network
+      - PARK_ADDR=0.0.0.0:8080
+    volumes:
+      # real flags file — provisioned out of band, never in the image or git
+      - ./secrets/flags.json:/etc/park-systems/flags.json:ro
+    expose:
+      - "8080"
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - park-systems
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:

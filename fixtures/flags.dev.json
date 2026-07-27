@@ -1,0 +1,8 @@
+{
+  "challenges": [
+    { "id": 1, "tool": "board_tour",     "prevCode": "dev-ticket-alpha",     "flag": "gc26{dev_welcome}" },
+    { "id": 2, "tool": "restore_power",  "prevCode": "gc26{dev_welcome}",    "flag": "gc26{dev_grid}" },
+    { "id": 3, "tool": "unlock_paddock", "prevCode": "gc26{dev_grid}",       "flag": "gc26{dev_magic_word}" },
+    { "id": 4, "tool": "open_park",      "prevCode": "gc26{dev_magic_word}", "flag": "gc26{dev_life_finds_a_way}" }
+  ]
+}
