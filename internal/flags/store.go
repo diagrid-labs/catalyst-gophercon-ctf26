@@ -20,14 +20,24 @@ type Challenge struct {
 	Flag     string `json:"flag"`
 }
 
+// BonusFlag is an optional hidden flag returned by an undocumented tool, outside
+// the main unlock chain — discovering the tool is the whole challenge.
+type BonusFlag struct {
+	Tool string `json:"tool"`
+	Flag string `json:"flag"`
+}
+
 // config is the on-disk shape of the flags file.
 type config struct {
 	Challenges []Challenge `json:"challenges"`
+	Bonus      *BonusFlag  `json:"bonus,omitempty"`
 }
 
-// Store holds the challenge chain in memory, keyed by challenge ID.
+// Store holds the challenge chain in memory, keyed by challenge ID, plus an
+// optional hidden bonus flag.
 type Store struct {
-	byID map[int]Challenge
+	byID  map[int]Challenge
+	bonus *BonusFlag
 }
 
 // LoadFile reads and validates a flags JSON file into a Store.
@@ -40,7 +50,17 @@ func LoadFile(path string) (*Store, error) {
 	if err := json.Unmarshal(data, &cfg); err != nil {
 		return nil, fmt.Errorf("parse flags file %q: %w", path, err)
 	}
-	return New(cfg.Challenges)
+	s, err := New(cfg.Challenges)
+	if err != nil {
+		return nil, err
+	}
+	if cfg.Bonus != nil {
+		if cfg.Bonus.Tool == "" || cfg.Bonus.Flag == "" {
+			return nil, fmt.Errorf("bonus flag missing tool or flag")
+		}
+		s.bonus = cfg.Bonus
+	}
+	return s, nil
 }
 
 // New builds a Store from challenges, validating each entry and rejecting
@@ -68,4 +88,12 @@ func New(challenges []Challenge) (*Store, error) {
 		byID[c.ID] = c
 	}
 	return &Store{byID: byID}, nil
+}
+
+// Bonus returns the configured hidden bonus flag, if any.
+func (s *Store) Bonus() (BonusFlag, bool) {
+	if s.bonus == nil {
+		return BonusFlag{}, false
+	}
+	return *s.bonus, true
 }

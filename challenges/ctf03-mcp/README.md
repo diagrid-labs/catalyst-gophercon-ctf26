@@ -1,5 +1,7 @@
 # Challenge 3 — Access the Security Grid 🔐
 
+**Category:** Catalyst · **Difficulty:** Medium · **Points:** 75
+
 Register an MCP server in Catalyst and let your agent (`security-grid`) call its
 tools. The agent reads the grid with `get_system_status`, then calls
 `unlock_paddock` with your access code and returns the flag — and you can watch

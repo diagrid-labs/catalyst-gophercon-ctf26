@@ -1,5 +1,7 @@
 # Challenge 1 — Welcome to Jurassic Park 🦕
 
+**Category:** Catalyst · **Difficulty:** Easy · **Points:** 50
+
 Run your first Catalyst agent (`park-welcome`) and watch it appear under **Agents**.
 It calls the park-systems `board_tour` tool with your entry ticket and hands back the flag.
 

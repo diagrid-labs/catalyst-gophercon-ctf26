@@ -1,5 +1,7 @@
 # Challenge 4 — Life Finds a Way 🦖
 
+**Category:** Catalyst · **Difficulty:** Hard · **Points:** 100
+
 The finale: **three** agents run together and each appears as its own entry under
 **Agents**. `raptor-keeper` and `grid-ranger` bring their systems online;
 `park-director` opens the park by calling `open_park` with your access code and

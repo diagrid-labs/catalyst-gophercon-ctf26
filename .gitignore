@@ -9,6 +9,7 @@
 deploy/.env
 deploy/secrets/
 docs/PLAN.md
+docs/ORGANIZER-HANDOFF.md
 *.local.json
 
 # ─────────────────────────────────────────────────────────────────────
@@ -29,3 +30,5 @@ docs/PLAN.md
 /out/
 /dist/
 /vendor/
+
+.DS_Store

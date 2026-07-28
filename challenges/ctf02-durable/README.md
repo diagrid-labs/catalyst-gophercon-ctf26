@@ -1,5 +1,7 @@
 # Challenge 2 — Hold Onto Your Butts 🔌
 
+**Category:** Catalyst · **Difficulty:** Medium · **Points:** 75
+
 A durable agent (`power-grid`) restores the grid in steps: `reroute → breakers →
 restore`. Kill it mid-run and start it again — Catalyst resumes from the last
 completed step. The flag appears only **after the run survives the crash**. No

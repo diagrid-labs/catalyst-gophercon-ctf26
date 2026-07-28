@@ -86,6 +86,18 @@ func (r *registry) add(s *mcp.Server) {
 		return r.unlock(ctx, contract.ChallengeCapstone, in.AccessCode,
 			"Every system is online. The park is open. Life, uh, found a way."), nil, nil
 	})
+
+	// Hidden bonus tool — registered only when a bonus flag is configured, and
+	// documented nowhere. Participants find it by listing the server's tools.
+	if bonus, ok := r.store.Bonus(); ok {
+		mcp.AddTool(s, &mcp.Tool{
+			Name:        contract.ToolNedrysBackdoor,
+			Description: "Ah ah ah! You didn't say the magic word... but you found the backdoor anyway.",
+		}, func(_ context.Context, _ *mcp.CallToolRequest, _ contract.NedrysBackdoorArgs) (*mcp.CallToolResult, any, error) {
+			r.log.Info("bonus", "tool", contract.ToolNedrysBackdoor, "ok", true)
+			return textResult("Ah ah ah! You found Nedry's backdoor — nobody's supposed to know this one's here.\n\nFLAG: "+bonus.Flag, false), nil, nil
+		})
+	}
 }
 
 // systemStatus returns harmless flavor text so participants can exercise a real

@@ -11,6 +11,8 @@ const (
 	ToolGetSystemStatus = "get_system_status" // Challenge 3 — read-only, harmless, returns no flag
 	ToolUnlockPaddock   = "unlock_paddock"    // Challenge 3 — Access the Security Grid (flag-bearing)
 	ToolOpenPark        = "open_park"         // Challenge 4 — Life Finds a Way
+
+	ToolNedrysBackdoor = "nedrys_backdoor"
 )
 
 // Challenge identifiers. Each flag-bearing tool maps to exactly one.
@@ -46,3 +48,7 @@ type UnlockPaddockArgs struct {
 type OpenParkArgs struct {
 	AccessCode string `json:"access_code" jsonschema:"master access code from the security grid (the flag you just earned)"`
 }
+
+// NedrysBackdoorArgs is the (empty) input to the hidden bonus tool. Discovering
+// the tool is the challenge; calling it takes no arguments.
+type NedrysBackdoorArgs struct{}
