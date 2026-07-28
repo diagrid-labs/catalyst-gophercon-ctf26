@@ -15,7 +15,7 @@ With the `diagrid` CLI (confirm exact flags with `diagrid mcpserver create --hel
 diagrid mcpserver create park-systems \
   --project <your-project> \
   --url <PARK_URL> \
-  --header "Authorization=Bearer <PARK_TOKEN>"
+  --header "Authorization:Bearer <PARK_TOKEN>"
 ```
 
 Or create an **MCPServer** resource in the Catalyst UI: Streamable HTTP endpoint

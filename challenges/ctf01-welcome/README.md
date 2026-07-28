@@ -18,7 +18,7 @@ diagrid agent create park-welcome --project $PROJECT --wait
 #    (Confirm the exact auth-header flag with: diagrid mcpserver create --help)
 diagrid mcpserver create park-systems --project $PROJECT \
   --url <PARK_URL> --transport streamable-http --scope park-welcome \
-  --header "Authorization=Bearer <PARK_TOKEN>"
+  --header "Authorization:Bearer <PARK_TOKEN>"
 
 # 3. Board the tour.
 go mod tidy

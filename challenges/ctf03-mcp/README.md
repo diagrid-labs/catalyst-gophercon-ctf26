@@ -19,7 +19,7 @@ diagrid agent create security-grid --project $PROJECT --wait
 # scoped to this agent.
 diagrid mcpserver create park-systems --project $PROJECT \
   --url <PARK_URL> --transport streamable-http --scope security-grid \
-  --header "Authorization=Bearer <PARK_TOKEN>"
+  --header "Authorization:Bearer <PARK_TOKEN>"
 
 go mod tidy
 export OPENAI_API_KEY=sk-...  ACCESS_CODE=<your challenge 2 flag>

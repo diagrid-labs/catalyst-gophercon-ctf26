@@ -15,7 +15,7 @@ OpenAI key needed.
 diagrid agent create power-grid --project $PROJECT --wait
 diagrid mcpserver create park-systems --project $PROJECT \
   --url <PARK_URL> --transport streamable-http --scope power-grid \
-  --header "Authorization=Bearer <PARK_TOKEN>"
+  --header "Authorization:Bearer <PARK_TOKEN>"
 
 go mod tidy
 export ACCESS_CODE=<your challenge 1 flag>

@@ -53,7 +53,13 @@ func main() {
 
 	mcpHandler := mcp.NewStreamableHTTPHandler(
 		func(*http.Request) *mcp.Server { return srv },
-		&mcp.StreamableHTTPOptions{Stateless: true},
+		// Stateless: no session affinity, so any Catalyst app can call in.
+		// DisableLocalhostProtection: park-systems is a remote, bearer-authed
+		// server reached via a tunnel/reverse proxy that dials loopback; the
+		// SDK's DNS-rebinding guard (localhost listener + non-localhost Host)
+		// would otherwise 403 every proxied request. Auth + rate limiting are
+		// what actually gate this server.
+		&mcp.StreamableHTTPOptions{Stateless: true, DisableLocalhostProtection: true},
 	)
 
 	handler := server.New(server.Options{
