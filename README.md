@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/DiagridCTFGopher.png" alt="Diagrid CTF Gopher — Jurassic Park explorer with a Diagrid Catalyst vest and a baby raptor" width="420">
+</p>
+
 # 🦖 GopherCon 2026 CTF — Jurassic Park on Diagrid Catalyst
 
 Welcome! Bring Jurassic Park back online by building **durable AI agents in Go**
