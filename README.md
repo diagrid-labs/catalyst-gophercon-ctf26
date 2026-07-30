@@ -11,7 +11,7 @@ challenge your agent talks to the park's control systems and returns a **flag**
 
 ## Before you start
 
-- A [Catalyst account + the `diagrid` CLI](https://docs.diagrid.io/catalyst/references/cli-reference/), and Go 1.26.4+.
+- A [Catalyst account](https://catalyst.diagrid.io/) + the [`diagrid` CLI](https://docs.diagrid.io/catalyst/references/cli-reference/), and Go 1.26.4+.
   - **Team size:** the Catalyst free tier allows **5 users per organization**. If your team has
     more than 5 people, split into multiple organizations (each with its own project) so
     everyone stays on the free tier.
@@ -32,13 +32,14 @@ challenge your agent talks to the park's control systems and returns a **flag**
   Whichever you pick, the model **must support tool calling** (`qwen2.5`, `qwen3`, `llama3.1`,
   `gpt-4o`, …) — the challenges are won by calling tools, and a model without tool support will
   never reach a flag.
-- Your **entry ticket** and the **park-systems connection details** — from the event brief.
-- The challenges build on the public [go-ai](https://github.com/diagridio/go-ai) framework — a normal `go build` / `go run` fetches it automatically.
+- Your **entry ticket** and the **park-systems connection details** — from the event brief in the CTF platform.
+- The challenges build on the Diagrid Open Source [go-ai](https://github.com/diagridio/go-ai) framework — a normal `go build` / `go run` fetches it automatically.
 - One-time Catalyst setup:
   ```bash
   diagrid login
   diagrid project update <your-project> --enable-agent-infrastructure
   ```
+  > Note: Alternatively, you can do this through the [Catalyst UI](https://catalyst.diagrid.io/).
 
 ## The challenges
 
@@ -47,20 +48,20 @@ Start at #1 and follow the flags — each flag you earn is the access code for t
 | # | Challenge | Category | Difficulty | Points | You'll learn |
 |---|---|---|---|---|---|
 | 1 | [Welcome to Jurassic Park](challenges/ctf01-welcome/README.md) 🦕 | Catalyst | Easy | 50 | run your first agent, see it in Catalyst |
-| 2 | [Hold Onto Your Butts](challenges/ctf02-durable/README.md) 🔌 | Catalyst | Medium | 75 | crash a durable workflow and watch it resume |
+| 2 | [Hold Onto Your Butts](challenges/ctf02-durable/README.md) 🔌 | Catalyst | Medium | 75 | crash a durable agent and watch it resume right where it left off |
 | 3 | [Access the Security Grid](challenges/ctf03-mcp/README.md) 🔐 | Catalyst | Medium | 75 | register an MCP server and call its tools |
 | 4 | [Life Finds a Way](challenges/ctf04-capstone/README.md) 🦖 | Catalyst | Hard | 100 | run several agents together |
 
 ## The park control system (park-systems)
 
 Your agents fetch their flags from **park-systems**, our hosted MCP "park control
-system," running on the event VM. You don't run it — the organizers give you two
+system". You don't run it — the organizers give you two
 values before you start:
 
 | Value | What it is | Where it goes |
 |---|---|---|
-| `<PARK_URL>` | the Streamable HTTP MCP endpoint, e.g. `https://park.<domain>/mcp` | `--url` |
-| `<PARK_TOKEN>` | the shared **bearer token** that authenticates every request | `--header "Authorization=Bearer <PARK_TOKEN>"` |
+| `<PARK_URL>` | the Streamable HTTP MCP endpoint, e.g. `https://park.diagrid.io/mcp` | `--url` |
+| `<PARK_TOKEN>` | the shared **bearer token** that authenticates every request | `--header "Authorization: Bearer <PARK_TOKEN>"` |
 
 Every challenge registers park-systems the same way. The token travels in an
 `Authorization: Bearer` header on the MCPServer resource — it never goes in your
@@ -69,7 +70,7 @@ agent code:
 ```bash
 diagrid mcpserver create park-systems --project $PROJECT \
   --url <PARK_URL> --transport streamable-http --scope <your-agent> \
-  --header "Authorization=Bearer <PARK_TOKEN>"
+  --header "Authorization: Bearer <PARK_TOKEN>"
 ```
 
 Miss the header, or get the token wrong, and every call comes back **401
