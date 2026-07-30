@@ -9,8 +9,9 @@
 // Diagrid Catalyst and registers under Agents; the tool calls are visible in the
 // Catalyst tool-call UI.
 //
-// The model is OpenAI (OPENAI_API_KEY, optionally OPENAI_MODEL, default gpt-4o).
-// Set ACCESS_CODE to the flag you earned in challenge 2. See README.md.
+// The model runs locally on Ollama by default — no API key and no cost — or on
+// OpenAI if you set OPENAI_API_KEY. Set ACCESS_CODE to the flag you earned in
+// challenge 2. See README.md.
 package main
 
 import (
@@ -19,6 +20,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/diagridio/catalyst-gophercon-ctf26/challenges/internal/parkmodel"
+
 	goai "github.com/diagridio/go-ai"
 	"github.com/diagridio/go-ai/adapters/langchaingo"
 	"github.com/diagridio/go-ai/agent"
@@ -26,7 +29,6 @@ import (
 
 	daprclient "github.com/dapr/go-sdk/client"
 	"github.com/tmc/langchaingo/llms"
-	"github.com/tmc/langchaingo/llms/openai"
 )
 
 const agentName = "security-grid"
@@ -101,14 +103,15 @@ func main() {
 	fmt.Printf("Grid: %s\n", result.Output)
 }
 
+// newModel builds the chat model. Provider selection, defaults and the Ollama
+// preflight all live in the shared parkmodel package, so every model-driven
+// challenge behaves identically.
 func newModel() llms.Model {
-	if os.Getenv("OPENAI_API_KEY") == "" {
-		fatal(fmt.Errorf("OPENAI_API_KEY is not set"))
-	}
-	m, err := openai.New(openai.WithModel(env("OPENAI_MODEL", "gpt-4o")))
+	m, err := parkmodel.New()
 	if err != nil {
-		fatal(fmt.Errorf("openai model: %w", err))
+		fatal(err)
 	}
+	fmt.Printf("Model: %s\n", m)
 	return m
 }
 
@@ -120,13 +123,6 @@ func toolInfos(tools []mcp.Tool) []goai.ToolInfo {
 		out[i] = goai.ToolInfo{Name: t.Name, Description: t.Description, Args: string(args)}
 	}
 	return out
-}
-
-func env(key, def string) string {
-	if v := os.Getenv(key); v != "" {
-		return v
-	}
-	return def
 }
 
 func fatal(err error) {

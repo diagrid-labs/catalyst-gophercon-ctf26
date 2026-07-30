@@ -9,8 +9,8 @@
 // Only the final node calls the park-systems restore_power tool, so the flag
 // appears only after the run survives the crash.
 //
-// This agent is deterministic (no model / no OPENAI_API_KEY needed). Set
-// ACCESS_CODE to the flag you earned in challenge 1. See README.md.
+// This agent is deterministic — it needs no model at all. Set ACCESS_CODE to the
+// flag you earned in challenge 1. See README.md.
 package main
 
 import (

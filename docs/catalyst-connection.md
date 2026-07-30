@@ -3,9 +3,26 @@
 These steps register the `park-systems` MCP server in your Catalyst project and
 wire it into your agent graph so your agent can call the challenge tools.
 
-> The event organizers give you the server URL and access token.
-> `<PARK_URL>` = e.g. `https://park.<domain>/mcp` · `<PARK_TOKEN>` = the event bearer token.
+> The event organizers give you both values before you start:
+> `<PARK_URL>` = e.g. `https://park.<domain>/mcp` · `<PARK_TOKEN>` = the event **bearer token**.
 > This page contains **no flags** — you earn those by calling the tools.
+
+## 0. The bearer token
+
+park-systems accepts nothing unauthenticated. Every request must carry:
+
+```
+Authorization: Bearer <PARK_TOKEN>
+```
+
+You never put that token in your agent code. It lives on the **MCPServer
+resource** in Catalyst, which attaches the header to each tool call your agent
+makes. One token is shared by all participants for the whole event, and it works
+for every challenge — register it once per agent and you're done.
+
+If you're running park-systems yourself instead of using the hosted one, the
+token is whatever `PARK_BEARER_TOKEN` is set to (`dev-token` in the dev profile)
+— see [local-mcp.md](local-mcp.md).
 
 ## 1. Register the MCP server in Catalyst
 
@@ -15,6 +32,8 @@ With the `diagrid` CLI (confirm exact flags with `diagrid mcpserver create --hel
 diagrid mcpserver create park-systems \
   --project <your-project> \
   --url <PARK_URL> \
+  --transport streamable-http \
+  --scope <your-agent> \
   --header "Authorization=Bearer <PARK_TOKEN>"
 ```
 
@@ -26,6 +45,10 @@ Confirm it is Ready:
 ```bash
 diagrid mcpserver get park-systems --project <your-project>
 ```
+
+**Check the token first when things break.** A wrong or missing token surfaces as
+`401 Unauthorized`, or as your agent discovering **0 tools** — not as an obvious
+auth error in your own code.
 
 ## 2. Add an MCP tool node to your agent graph
 

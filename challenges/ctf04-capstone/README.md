@@ -5,9 +5,11 @@
 The finale: **three** agents run together and each appears as its own entry under
 **Agents**. `raptor-keeper` and `grid-ranger` bring their systems online;
 `park-director` opens the park by calling `open_park` with your access code and
-returns the final flag. No OpenAI key needed.
+returns the final flag. All three agents are deterministic — no model, so you
+don't even need Ollama running.
 
-**You need:** `ACCESS_CODE` = your challenge 3 flag; the park-systems URL + token.
+**You need:** `ACCESS_CODE` = your challenge 3 flag; the park-systems URL +
+**bearer token**.
 
 ## Walkthrough
 

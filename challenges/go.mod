@@ -1,10 +1,12 @@
-module github.com/diagridio/catalyst-gophercon-ctf26/challenges/ctf04-capstone
+module github.com/diagridio/catalyst-gophercon-ctf26/challenges
 
 go 1.26.4
 
 require (
 	github.com/dapr/go-sdk v1.15.0
-	github.com/diagridio/go-ai v0.0.0-20260726225721-c7df5aa4e91a
+	github.com/diagridio/go-ai v0.0.0
+	github.com/diagridio/go-ai/adapters/langchaingo v0.0.0-20260726225721-c7df5aa4e91a
+	github.com/tmc/langchaingo v0.1.15-0.20251029190607-e35755df7084
 )
 
 require (
@@ -13,12 +15,14 @@ require (
 	github.com/dapr/dapr v1.18.0 // indirect
 	github.com/dapr/durabletask-go v0.12.2 // indirect
 	github.com/dapr/kit v0.18.1 // indirect
+	github.com/dlclark/regexp2 v1.11.0 // indirect
 	github.com/go-jose/go-jose/v4 v4.1.4 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/google/jsonschema-go v0.4.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/modelcontextprotocol/go-sdk v1.6.1 // indirect
+	github.com/pkoukk/tiktoken-go v0.1.6 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/segmentio/encoding v0.5.4 // indirect
 	github.com/spiffe/go-spiffe/v2 v2.6.0 // indirect
