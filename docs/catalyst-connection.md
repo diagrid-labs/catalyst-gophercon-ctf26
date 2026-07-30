@@ -34,7 +34,7 @@ diagrid mcpserver create park-systems \
   --url <PARK_URL> \
   --transport streamable-http \
   --scope <your-agent> \
-  --header "Authorization=Bearer <PARK_TOKEN>"
+  --header "Authorization:Bearer <PARK_TOKEN>"
 ```
 
 Or create an **MCPServer** resource in the Catalyst UI: Streamable HTTP endpoint

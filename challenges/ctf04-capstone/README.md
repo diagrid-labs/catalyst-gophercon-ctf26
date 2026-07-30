@@ -22,7 +22,7 @@ diagrid agent create park-director --project $PROJECT --wait
 # park-director is the one that opens the park.
 diagrid mcpserver create park-systems --project $PROJECT \
   --url <PARK_URL> --transport streamable-http --scope park-director \
-  --header "Authorization=Bearer <PARK_TOKEN>"
+  --header "Authorization:Bearer <PARK_TOKEN>"
 
 go mod tidy
 export ACCESS_CODE=<your challenge 3 flag>
