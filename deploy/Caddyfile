@@ -1,6 +1,6 @@
-# park.diagrid.io must have an A record pointing at the VM's (or load balancer's)
-# static public IP. Caddy automatically obtains and renews a Let's Encrypt
-# certificate for it and proxies /mcp (and everything else) to the app.
-park.diagrid.io {
+# Azure attaches this free FQDN to the VM's public IP via its DNS name label
+# ("diagrid-park" in southcentralus). Caddy automatically obtains and renews a
+# Let's Encrypt certificate for it and proxies /mcp (and everything else) to the app.
+diagrid-park.southcentralus.cloudapp.azure.com {
 	reverse_proxy park-systems:8080
 }

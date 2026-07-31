@@ -4,10 +4,10 @@
 // Command ctf02-durable is GopherCon CTF challenge 2 — "Hold Onto Your Butts".
 //
 // A durable multi-node agent (reroute -> breakers -> restore) that runs on the
-// Dapr Workflow backend. Give it a fixed run id, kill it partway through, and
-// re-run: Catalyst resumes from the last completed node instead of restarting.
-// Only the final node calls the park-systems restore_power tool, so the flag
-// appears only after the run survives the crash.
+// Dapr Workflow backend. Set FAIL_AT to trip a node on purpose: the backend
+// retries just that node, replaying the completed ones from history rather than
+// re-running them. Only the final node calls the park-systems restore_power
+// tool, so the flag appears only after the run recovers.
 //
 // This agent is deterministic — it needs no model at all. Set ACCESS_CODE to the
 // flag you earned in challenge 1. See README.md.
@@ -18,16 +18,41 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sync/atomic"
 	"time"
+
+	"github.com/diagridio/catalyst-gophercon-ctf26/challenges/internal/parkflag"
 
 	goai "github.com/diagridio/go-ai"
 	"github.com/diagridio/go-ai/agent"
+	"github.com/diagridio/go-ai/durable"
 	"github.com/diagridio/go-ai/mcp"
 
 	daprclient "github.com/dapr/go-sdk/client"
 )
 
 const agentName = "power-grid"
+
+// failEnv names the node to fail on purpose, to show the retry recover it.
+const failEnv = "FAIL_AT"
+
+// tripped marks FAIL_AT as already fired, so the retry succeeds. Activities run
+// on worker goroutines, so this is touched concurrently.
+var tripped atomic.Bool
+
+// nodeRetry keeps a failed run alive: the backend holds the wait between
+// attempts, so a tripped node recovers without the run being restarted.
+var nodeRetry = &durable.NodeRetryPolicy{
+	MaxAttempts:        maxAttempts,
+	InitialInterval:    retryInterval,
+	BackoffCoefficient: 1, // flat, so every attempt waits the same
+	MaxInterval:        retryInterval,
+}
+
+const (
+	maxAttempts   = 20
+	retryInterval = 5 * time.Second
+)
 
 type state struct {
 	Output string `json:"output,omitempty"`
@@ -61,11 +86,14 @@ func main() {
 	}
 
 	// reroute -> breakers -> restore. The intermediate nodes checkpoint before the
-	// flag-bearing restore node, so a crash mid-run resumes without re-charging.
+	// flag-bearing restore node, so a failure part-way through costs only that node.
 	graph := agent.NewGraph(agentName).
 		AddNode("reroute", stepNode("reroute", "rerouted auxiliary power")).
 		AddNode("breakers", stepNode("breakers", "reset the tripped breakers")).
 		AddNode("restore", func(ctx context.Context, _ agent.State) (agent.State, error) {
+			if err := failIfRequested("restore"); err != nil {
+				return nil, err
+			}
 			res, err := restore.Call(ctx, map[string]any{"access_code": accessCode})
 			if err != nil {
 				return nil, fmt.Errorf("restore_power: %w", err)
@@ -84,6 +112,7 @@ func main() {
 		Role:      "Grid Engineer",
 		Goal:      "Restore the park power grid and survive a crash",
 		Tools:     toolInfos(tools),
+		NodeRetry: nodeRetry,
 	})
 	if err != nil {
 		fatal(err)
@@ -99,14 +128,18 @@ func main() {
 		fatal(err)
 	}
 	fmt.Printf("Agent %q ran as workflow %s\n", runner.Name(), runner.WorkflowName())
-	fmt.Printf("Grid: %s\n", result.Output)
+	fmt.Printf("Grid: %s\n", parkflag.Redact(result.Output))
 }
 
-// stepNode is a deterministic checkpointed step. The pause gives you a window to
-// Ctrl-C mid-run so you can prove the workflow resumes from the last node.
+// stepNode is a deterministic checkpointed step. Its "EXECUTING" line is the
+// evidence to watch: a completed step must never print it twice, however many
+// times a later step is retried.
 func stepNode(channel, msg string) agent.NodeFunc {
 	return func(ctx context.Context, _ agent.State) (agent.State, error) {
-		fmt.Printf("... %s\n", msg)
+		if err := failIfRequested(channel); err != nil {
+			return nil, err
+		}
+		fmt.Printf("... EXECUTING %s: %s\n", channel, msg)
 		select {
 		case <-time.After(3 * time.Second):
 		case <-ctx.Done():
@@ -114,6 +147,24 @@ func stepNode(channel, msg string) agent.NodeFunc {
 		}
 		return agent.State{channel: msg}, nil
 	}
+}
+
+// failIfRequested fails the node named by FAIL_AT on its first attempt only, so
+// the retry recovers the run on its own.
+//
+// It must return an error, never os.Exit: a reported failure leaves the backend
+// owning the retry, while a killed process strands the step in a run that can
+// never finish.
+func failIfRequested(node string) error {
+	if os.Getenv(failEnv) != node {
+		return nil
+	}
+	if tripped.Swap(true) {
+		fmt.Printf("... retrying %s after the trip\n", node)
+		return nil
+	}
+	fmt.Printf("\n=== %s=%s — tripping %q. Retry comes due in %s; sit tight. ===\n", failEnv, node, node, retryInterval)
+	return fmt.Errorf("the grid tripped in %q (%s=%s)", node, failEnv, node)
 }
 
 // findTool locates a discovered MCP tool by name.

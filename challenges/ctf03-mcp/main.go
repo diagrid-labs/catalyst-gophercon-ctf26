@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/diagridio/catalyst-gophercon-ctf26/challenges/internal/parkflag"
 	"github.com/diagridio/catalyst-gophercon-ctf26/challenges/internal/parkmodel"
 
 	goai "github.com/diagridio/go-ai"
@@ -100,7 +101,7 @@ func main() {
 		fatal(err)
 	}
 	fmt.Printf("Agent %q ran as workflow %s\n", runner.Name(), runner.WorkflowName())
-	fmt.Printf("Grid: %s\n", result.Output)
+	fmt.Printf("Grid: %s\n", parkflag.Redact(result.Output))
 }
 
 // newModel builds the chat model. Provider selection, defaults and the Ollama

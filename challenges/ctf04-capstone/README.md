@@ -16,22 +16,21 @@ don't even need Ollama running.
 ```bash
 # An Agent resource for each — all three show up in the Agents tab.
 diagrid agent create raptor-keeper --project $PROJECT --wait
-diagrid agent create grid-ranger   --project $PROJECT --wait
+diagrid agent create grid-ranger --project $PROJECT --wait
 diagrid agent create park-director --project $PROJECT --wait
 
 # park-director is the one that opens the park.
-diagrid mcpserver create park-systems --project $PROJECT \
-  --url <PARK_URL> --transport streamable-http --scope park-director \
-  --header "Authorization:Bearer <PARK_TOKEN>"
+diagrid mcpserver update park-systems --scope park-director --project $PROJECT 
 
-go mod tidy
-export ACCESS_CODE=<your challenge 3 flag>
+export ACCESS_CODE='gc26{...}' # whole challenge three flag, wrapper included
 diagrid dev run -f catalyst.yaml --project $PROJECT   # starts all three agents
 ```
 
-`park-director` prints the final `FLAG: gc26{...}`. Welcome... to Jurassic Park.
+`park-director` withholds the flag in the terminal. Read the final `FLAG: gc26{...}`
+from its workflow output in the [Catalyst console](https://catalyst.diagrid.io/).
+Welcome... to Jurassic Park.
 
-<details><summary>Run locally instead</summary>
+<details><summary>Alternatively:</summary>
 
 Three terminals (one App ID each):
 

@@ -37,7 +37,14 @@ challenge your agent talks to the park's control systems and returns a **flag**
 - One-time Catalyst setup:
   ```bash
   diagrid login
-  diagrid project update <your-project> --enable-agent-infrastructure
+  export PROJECT=<your-project-name>
+  diagrid project create $PROJECT --enable-agent-infrastructure
+  diagrid project use $PROJECT
+  ```
+  Invite your team to the Catalyst organization (up to 5 users per Catalyst organization on the free tier!):
+  ```bash
+  diagrid users create --name <name> --email <email> --role cra.diagrid:editor
+  # see "diagrid users create -h" for additional roles you may set for your teammates.
   ```
   > Note: Alternatively, you can do this through the [Catalyst UI](https://catalyst.diagrid.io/).
 
@@ -55,22 +62,23 @@ Start at #1 and follow the flags — each flag you earn is the access code for t
 ## The park control system (park-systems)
 
 Your agents fetch their flags from **park-systems**, our hosted MCP "park control
-system". You don't run it — the organizers give you two
+system". You don't run it — the organizers give you various
 values before you start:
 
 | Value | What it is | Where it goes |
 |---|---|---|
-| `<PARK_URL>` | the Streamable HTTP MCP endpoint, e.g. `https://park.diagrid.io/mcp` | `--url` |
+| `<PARK_URL>` | the Streamable HTTP MCP endpoint, e.g. `https://diagrid-park.southcentralus.cloudapp.azure.com/mcp` | `--url` |
 | `<PARK_TOKEN>` | the shared **bearer token** that authenticates every request | `--header "Authorization: Bearer <PARK_TOKEN>"` |
+| `<PARK_TICKET>` | the shared ticket to enter the park | Challenge 1 input. |
 
 Every challenge registers park-systems the same way. The token travels in an
 `Authorization: Bearer` header on the MCPServer resource — it never goes in your
-agent code:
+agent code.
 
 ```bash
 diagrid mcpserver create park-systems --project $PROJECT \
-  --url <PARK_URL> --transport streamable-http --scope <your-agent> \
-  --header "Authorization: Bearer <PARK_TOKEN>"
+  --url $PARK_URL --transport streamable-http \
+  --header "Authorization: Bearer "$PARK_TOKEN
 ```
 
 Miss the header, or get the token wrong, and every call comes back **401
@@ -81,3 +89,6 @@ The park-systems **server source is committed to this repo only *after* the
 challenge**, so the flag values and unlock logic aren't exposed ahead of time.
 
 Hold onto your butts. 🦕
+
+## Hidden surprise
+Yes, we do have a hidden extra surprise you can get throughout our challenges. See if you can find it! Otherwise, ask one of the twins and we can give you a pointer :D

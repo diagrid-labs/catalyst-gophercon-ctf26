@@ -19,26 +19,22 @@ ollama pull qwen2.5:7b
 #   export OPENAI_API_KEY=sk-...
 
 # 1. Register the agent — it shows up under Agents in the console.
-diagrid agent create park-welcome --project $PROJECT --wait
+diagrid agent create park-welcome --wait
 
-# 2. Give the agent access to the park control systems. <PARK_TOKEN> is the
-#    bearer token the organizers gave you — it authenticates every tool call.
-#    (Confirm the exact auth-header flag with: diagrid mcpserver create --help)
-diagrid mcpserver create park-systems --project $PROJECT \
-  --url <PARK_URL> --transport streamable-http --scope park-welcome \
-  --header "Authorization:Bearer <PARK_TOKEN>"
+# 2. Scope the MCPServer to your agent.
+diagrid mcpserver update park-systems --project $PROJECT --scope park-welcome --scope park-systems 
 
 # 3. Board the tour.
-go mod tidy
-export PARK_TICKET=<your entry ticket>
+cd challenges/ctf01-welcome # if you haven't already done so
 diagrid dev run -f catalyst.yaml --project $PROJECT
 ```
 
 If the agent reports **0 discovered tools**, the MCPServer auth header is the usual culprit —
-re-check the `Authorization=Bearer <PARK_TOKEN>` value.
+re-check the `Authorization=Bearer $PARK_TOKEN` value.
 
-Find the `FLAG: gc26{...}` line in the output. Submit it — and keep it: it's your
-access code for challenge 2.
+The terminal withholds the flag on purpose. Open the run in the
+[Catalyst console](https://catalyst.diagrid.io/) and read the `FLAG: gc26{...}` line from its
+workflow output. Submit it — and keep it: it's your access code for challenge 2.
 
 <details><summary>Run locally instead</summary>
 
@@ -66,6 +62,15 @@ in [`challenges/internal/parkmodel`](../internal/parkmodel/).
 | `OPENAI_BASE_URL` | optional, for an OpenAI-compatible gateway |
 
 Any model that supports **tool calling** works. Smaller local models sometimes paraphrase the
-tool result instead of echoing it, so the `FLAG:` prefix may be missing — the `gc26{...}` value
-is still your flag.
+tool result instead of echoing it, so the `FLAG:` prefix may be missing from the workflow output —
+the `gc26{...}` value is still your flag.
+
+The flag will be in your workflow run's output in the [Catalyst UI](https://www.diagrid.io/catalyst).
+This value is the input for the next challenge — pass it **exactly as printed**, `gc26{}` wrapping
+included. Access codes are compared byte for byte, so a stripped wrapper is rejected and the run
+fails.
+
+```bash
+export ACCESS_CODE='gc26{...}'   # the whole flag, wrapper included
+```
 </details>

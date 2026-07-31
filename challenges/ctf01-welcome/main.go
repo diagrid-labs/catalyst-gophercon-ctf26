@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/diagridio/catalyst-gophercon-ctf26/challenges/internal/parkflag"
 	"github.com/diagridio/catalyst-gophercon-ctf26/challenges/internal/parkmodel"
 
 	goai "github.com/diagridio/go-ai"
@@ -54,13 +55,23 @@ func main() {
 		fatal(fmt.Errorf("discover MCP tools: %w", err))
 	}
 	fmt.Printf("Discovered %d MCP tool(s) from the sidecar.\n", len(tools))
+	// With no tools bound, the model has no way to reach park-systems and will
+	// happily invent a flag instead. Stop before it can.
+	if len(tools) == 0 {
+		fatal(fmt.Errorf("no MCP tools discovered: the agent cannot reach park-systems.\n"+
+			"  Check the MCPServer is scoped to this app ID (%s) and that its\n"+
+			"  Authorization header is exactly \"Bearer <token>\" — no colon after Bearer", agentName))
+	}
 
 	graph := agent.NewGraph(agentName).
 		AddNode("gate", langchaingo.ToolModelNode(newModel(), tools,
 			langchaingo.WithSystemPrompt(
 				"You are the gate to Jurassic Park. Call the board_tour tool exactly once, "+
 					"passing the visitor's ticket as the `ticket` argument. Then reply with the "+
-					"tool's response verbatim, including any line that starts with 'FLAG:'."),
+					"tool's response copied verbatim, character for character, including the "+
+					"line that starts with 'FLAG:'. Never write a 'FLAG:' line the tool did "+
+					"not return, and never paraphrase, summarize, or add welcome text of your "+
+					"own. If the tool returned no response, say exactly that."),
 			langchaingo.WithInputKey("input"),
 			langchaingo.WithOutputKey("output"),
 		)).
@@ -94,7 +105,7 @@ func main() {
 		fatal(err)
 	}
 	fmt.Printf("Agent %q ran as workflow %s\n", runner.Name(), runner.WorkflowName())
-	fmt.Printf("Gate: %s\n", result.Output)
+	fmt.Printf("Gate: %s\n", parkflag.Redact(result.Output))
 }
 
 // newModel builds the chat model. Provider selection, defaults and the Ollama

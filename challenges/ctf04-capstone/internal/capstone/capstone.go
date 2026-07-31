@@ -12,6 +12,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/diagridio/catalyst-gophercon-ctf26/challenges/internal/parkflag"
+
 	goai "github.com/diagridio/go-ai"
 	"github.com/diagridio/go-ai/agent"
 	"github.com/diagridio/go-ai/mcp"
@@ -47,7 +49,7 @@ func RunSingle(ctx context.Context, name, role, goal string, node agent.NodeFunc
 		Output string `json:"output"`
 	}
 	_ = out.Into(&r)
-	fmt.Printf("Agent %q ran as workflow %s: %s\n", runner.Name(), runner.WorkflowName(), r.Output)
+	fmt.Printf("Agent %q ran as workflow %s: %s\n", runner.Name(), runner.WorkflowName(), parkflag.Redact(r.Output))
 	return nil
 }
 

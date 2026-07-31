@@ -32,6 +32,12 @@ func newStack(t *testing.T) *httptest.Server {
 	if err != nil {
 		t.Fatalf("store: %v", err)
 	}
+	return serve(t, store)
+}
+
+// serve wires a store into an MCP server behind the real auth handler.
+func serve(t *testing.T, store *flags.Store) *httptest.Server {
+	t.Helper()
 	srv := mcp.NewServer(&mcp.Implementation{Name: "test", Version: "0"}, nil)
 	tools.Register(srv, store, verify.NoOp{}, slog.New(slog.NewTextHandler(io.Discard, nil)))
 	mcpHandler := mcp.NewStreamableHTTPHandler(

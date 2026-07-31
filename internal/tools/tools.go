@@ -18,6 +18,18 @@ import (
 // reveals the correct code.
 const rejected = "Access code rejected — the system stays locked. Retrace your steps and bring the clearance you earned from the previous system."
 
+// bonusPreamble prefixes the hidden flag. The backdoor sits outside the unlock
+// chain and can be called at any point, so the response has to say what the flag
+// is on its own — otherwise it reads like a challenge flag and gets submitted to
+// the wrong challenge, or tried as an access code that will never work.
+//
+// The flag line still begins with "FLAG:" so the agents' prompts, which are told
+// to echo any line starting with that, relay it unchanged.
+const bonusPreamble = "Ah ah ah! You found Nedry's backdoor — nobody's supposed to know this one's here.\n\n" +
+	"This is the hidden BONUS flag: a 5th flag, worth points on its own. It is not an access code — " +
+	"it unlocks nothing, and challenges 1-4 each still have their own flag to earn.\n\n" +
+	"FLAG: "
+
 // Register adds all challenge tools to the server.
 func Register(s *mcp.Server, store *flags.Store, v verify.Verifier, log *slog.Logger) {
 	r := &registry{store: store, verify: v, log: log}
@@ -89,13 +101,17 @@ func (r *registry) add(s *mcp.Server) {
 
 	// Hidden bonus tool — registered only when a bonus flag is configured, and
 	// documented nowhere. Participants find it by listing the server's tools.
+	//
+	// Unlike every other flag-bearing tool it takes no arguments and never calls
+	// unlock: there is no access code to present and no place in the chain, so it
+	// pays out to anyone who calls it, at any point, as often as they like.
 	if bonus, ok := r.store.Bonus(); ok {
 		mcp.AddTool(s, &mcp.Tool{
 			Name:        contract.ToolNedrysBackdoor,
-			Description: "Ah ah ah! You didn't say the magic word... but you found the backdoor anyway.",
+			Description: "Ah ah ah! You didn't say the magic word... but you found the backdoor anyway. Takes no arguments.",
 		}, func(_ context.Context, _ *mcp.CallToolRequest, _ contract.NedrysBackdoorArgs) (*mcp.CallToolResult, any, error) {
 			r.log.Info("bonus", "tool", contract.ToolNedrysBackdoor, "ok", true)
-			return textResult("Ah ah ah! You found Nedry's backdoor — nobody's supposed to know this one's here.\n\nFLAG: "+bonus.Flag, false), nil, nil
+			return textResult(bonusPreamble+bonus.Flag, false), nil, nil
 		})
 	}
 }

@@ -24,11 +24,10 @@ diagrid agent create security-grid --project $PROJECT --wait
 # The heart of this challenge: register park-systems as a governed MCP server,
 # scoped to this agent. The bearer token from the organizers goes in the auth
 # header — Catalyst attaches it to every tool call your agent makes.
-diagrid mcpserver create park-systems --project $PROJECT \
+diagrid mcpserver update park-systems --project $PROJECT \
   --url <PARK_URL> --transport streamable-http --scope security-grid \
   --header "Authorization:Bearer <PARK_TOKEN>"
 
-go mod tidy
 export ACCESS_CODE=<your challenge 2 flag>
 diagrid dev run -f catalyst.yaml --project $PROJECT
 ```
@@ -36,14 +35,15 @@ diagrid dev run -f catalyst.yaml --project $PROJECT
 This challenge prints the discovered tools first — an empty list means the bearer token or the
 auth header is wrong, not that your agent is broken.
 
-The agent lists the discovered tools and prints `FLAG: gc26{...}`. Open the run
-in the Catalyst UI to see the `get_system_status` and `unlock_paddock` calls. The
-flag is your access code for challenge 4.
+The agent lists the discovered tools, but withholds the flag in the terminal. Open
+the run in the [Catalyst console](https://catalyst.diagrid.io/): the `FLAG: gc26{...}`
+line is in its workflow output, alongside the `get_system_status` and
+`unlock_paddock` calls. The flag is your access code for challenge 4.
 
 <details><summary>Run locally instead</summary>
 
 ```bash
-export ACCESS_CODE=<challenge 2 flag>
+export ACCESS_CODE='gc26{...}' # whole challenge two flag, wrapper included
 dapr run --app-id security-grid --resources-path ./resources -- go run .
 ```
 </details>
@@ -65,4 +65,13 @@ in [`challenges/internal/parkmodel`](../internal/parkmodel/).
 
 This challenge needs **two** tool calls in sequence, so pick a model you've seen handle
 multi-step tool use — `qwen2.5:7b` and up are reliable here, as is `gpt-4o`.
+
+The flag will be in your workflow run's output in the [Catalyst UI](https://www.diagrid.io/catalyst).
+This value is the input for the next challenge — pass it **exactly as printed**, `gc26{}` wrapping
+included. Access codes are compared byte for byte, so a stripped wrapper is rejected and the run
+fails.
+
+```bash
+export ACCESS_CODE='gc26{...}'   # the whole flag, wrapper included
+```
 </details>
