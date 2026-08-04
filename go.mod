@@ -4,8 +4,8 @@ go 1.26.4
 
 require (
 	github.com/dapr/go-sdk v1.15.0
-	github.com/diagridio/go-ai v0.1.0
-	github.com/diagridio/go-ai/adapters/langchaingo v0.0.0-20260729141618-920f6b4f0c56
+	github.com/diagridio/go-ai v0.1.1
+	github.com/diagridio/go-ai/adapters/langchaingo v0.0.0-20260804171457-fa8efeecb9fc
 	github.com/modelcontextprotocol/go-sdk v1.6.1
 	github.com/tmc/langchaingo v0.1.15-0.20251029190607-e35755df7084
 )
