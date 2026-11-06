@@ -4,7 +4,7 @@
 // Command park-director is the lead challenge 4 capstone agent. With the other
 // agents online, it opens the park by calling the park-systems open_park MCP
 // tool with your access code, and reports the final flag. It registers itself
-// under Agents in Catalyst alongside the others.
+// under Agents in Diagrid alongside the others.
 //
 // Set ACCESS_CODE to the flag you earned in challenge 3. See README.md.
 package main

@@ -5,7 +5,7 @@
 //
 // A single-node LangChainGo agent that calls the park-systems MCP `board_tour`
 // tool with your entry ticket and reports the flag it returns. It runs as a
-// durable Dapr Workflow on Diagrid Catalyst and registers under Agents.
+// durable Dapr Workflow on Diagrid and registers under Agents.
 //
 // The model runs locally on Ollama by default — no API key and no cost — or on
 // OpenAI if you set OPENAI_API_KEY. Set PARK_TICKET to the entry ticket from the
@@ -120,7 +120,7 @@ func newModel() llms.Model {
 	return m
 }
 
-// toolInfos declares the discovered tools for the Catalyst Agents view.
+// toolInfos declares the discovered tools for the Diagrid Agents view.
 func toolInfos(tools []mcp.Tool) []goai.ToolInfo {
 	out := make([]goai.ToolInfo, len(tools))
 	for i, t := range tools {

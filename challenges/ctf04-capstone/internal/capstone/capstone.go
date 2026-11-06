@@ -3,7 +3,7 @@
 
 // Package capstone holds helpers shared by the challenge 4 agents. Each agent is
 // a separate program (its own App ID / Agent resource) so they all appear as
-// distinct entries under Agents in the Catalyst console.
+// distinct entries under Agents in the Diagrid Console.
 package capstone
 
 import (
@@ -19,9 +19,9 @@ import (
 	"github.com/diagridio/go-ai/mcp"
 )
 
-// RunSingle builds a one-node agent around node, registers it in Catalyst, runs
+// RunSingle builds a one-node agent around node, registers it in Diagrid, runs
 // it once, and prints the result. tools may be nil for agents that call no MCP
-// tools; when set they are declared for the Catalyst Agents view.
+// tools; when set they are declared for the Diagrid Agents view.
 func RunSingle(ctx context.Context, name, role, goal string, node agent.NodeFunc, tools []goai.ToolInfo) error {
 	graph := agent.NewGraph(name).
 		AddNode("act", node).
@@ -63,7 +63,7 @@ func FindTool(tools []mcp.Tool, name string) (mcp.Tool, error) {
 	return mcp.Tool{}, fmt.Errorf("MCP tool %q not found — is the park-systems MCP server registered and scoped to this agent?", name)
 }
 
-// ToolInfos declares discovered tools for the Catalyst Agents view.
+// ToolInfos declares discovered tools for the Diagrid Agents view.
 func ToolInfos(tools []mcp.Tool) []goai.ToolInfo {
 	out := make([]goai.ToolInfo, len(tools))
 	for i, t := range tools {

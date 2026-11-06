@@ -177,7 +177,7 @@ func findTool(tools []mcp.Tool, name string) (mcp.Tool, error) {
 	return mcp.Tool{}, fmt.Errorf("MCP tool %q not found — is the park-systems MCP server registered and scoped to this agent?", name)
 }
 
-// toolInfos declares the discovered tools for the Catalyst Agents view.
+// toolInfos declares the discovered tools for the Diagrid Agents view.
 func toolInfos(tools []mcp.Tool) []goai.ToolInfo {
 	out := make([]goai.ToolInfo, len(tools))
 	for i, t := range tools {

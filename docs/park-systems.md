@@ -1,6 +1,6 @@
 # park-systems — the CTF flag server (organizer reference)
 
-The flag-delivery MCP server behind the GopherCon 2026 Catalyst CTF. Challenge
+The flag-delivery MCP server behind the GopherCon 2026 Diagrid CTF. Challenge
 agents call its tools to retrieve a per-challenge flag. Flags **chain**: each
 flag-bearing tool returns its flag only when given the previous challenge's flag
 as its `access_code` (Mode A of the build plan).
@@ -35,7 +35,7 @@ See [local-mcp.md](local-mcp.md).
 |---|---|---|
 | `PARK_PROFILE` | `dev` | `dev` = fixtures + default token; `prod` = real flags, token required |
 | `PARK_FLAGS_FILE` | `fixtures/flags.dev.json` | path to the flags JSON |
-| `PARK_BEARER_TOKEN` | (dev: `dev-token`) | required in prod; participants set this in Catalyst |
+| `PARK_BEARER_TOKEN` | (dev: `dev-token`) | required in prod; participants set this in Diagrid |
 | `PARK_ADDR` | `:8080` | listen address |
 | `PARK_RATE_PER_MIN` | `30` | per-source-IP request cap per minute |
 
@@ -57,6 +57,6 @@ gofmt -l .
 
 ## Docs
 
-- [catalyst-connection.md](catalyst-connection.md) — participant-facing steps to connect a Catalyst agent.
+- [catalyst-connection.md](catalyst-connection.md) — participant-facing steps to connect a Diagrid agent.
 - [local-mcp.md](local-mcp.md) — run the server locally.
 - [../deploy/README.md](../deploy/README.md) — single Azure VM + Caddy TLS (no load balancer).

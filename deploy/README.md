@@ -43,7 +43,7 @@ Caddy obtains the TLS cert automatically. Verify:
 curl -s https://park.<yourdomain>/healthz   # -> ok
 ```
 
-Then confirm a Catalyst `MCPServer` resource can reach `https://park.<yourdomain>/mcp`.
+Then confirm a Diagrid `MCPServer` resource can reach `https://park.<yourdomain>/mcp`.
 
 ## Ops
 

@@ -117,7 +117,7 @@ func (r *registry) add(s *mcp.Server) {
 }
 
 // systemStatus returns harmless flavor text so participants can exercise a real
-// tool call in the Catalyst UI before the flag-bearing unlock. No secrets.
+// tool call in the Diagrid Console before the flag-bearing unlock. No secrets.
 func systemStatus(system string) string {
 	switch system {
 	case "fences":

@@ -1,18 +1,18 @@
 <p align="center">
-  <img src="assets/DiagridCTFGopher.png" alt="Diagrid CTF Gopher — Jurassic Park explorer with a Diagrid Catalyst vest and a baby raptor" width="420" />
+  <img src="assets/DiagridCTFGopher.png" alt="Diagrid CTF Gopher — Jurassic Park explorer with a Diagrid vest and a baby raptor" width="420" />
 </p>
 
-# 🦖 GopherCon 2026 CTF — Jurassic Park on Diagrid Catalyst
+# 🦖 GopherCon 2026 CTF — Jurassic Park on Diagrid
 
 Welcome! Bring Jurassic Park back online by building **durable AI agents in Go**
-that run on [Diagrid Catalyst](https://www.diagrid.io/catalyst). In each
+that run on [Diagrid](https://www.diagrid.io/catalyst). In each
 challenge your agent talks to the park's control systems and returns a **flag**
 (`gc26{...}`) — submit it to score, then use it as the key to the next challenge.
 
 ## Before you start
 
-- A [Catalyst account](https://catalyst.diagrid.io/) + the [`diagrid` CLI](https://docs.diagrid.io/catalyst/references/cli-reference/), and Go 1.26.4+.
-  - **Team size:** the Catalyst free tier allows **5 users per organization**. If your team has
+- A [Diagrid account](https://catalyst.diagrid.io/) + the [`diagrid` CLI](https://docs.diagrid.io/references/diagrid/diagrid-cli-intro/), and Go 1.26.4+.
+  - **Team size:** the Diagrid free tier allows **5 users per organization**. If your team has
     more than 5 people, split into multiple organizations (each with its own project) so
     everyone stays on the free tier.
 - A model for the AI challenges (1 and 3) — **either one works**:
@@ -34,19 +34,19 @@ challenge your agent talks to the park's control systems and returns a **flag**
   never reach a flag.
 - Your **entry ticket** and the **park-systems connection details** — from the event brief in the CTF platform.
 - The challenges build on the Diagrid Open Source [go-ai](https://github.com/diagridio/go-ai) framework — a normal `go build` / `go run` fetches it automatically.
-- One-time Catalyst setup:
+- One-time Diagrid setup:
   ```bash
   diagrid login
   export PROJECT=<your-project-name>
   diagrid project create $PROJECT --enable-agent-infrastructure
   diagrid project use $PROJECT
   ```
-  Invite your team to the Catalyst organization (up to 5 users per Catalyst organization on the free tier!):
+  Invite your team to the Diagrid organization (up to 5 users per Diagrid organization on the free tier!):
   ```bash
   diagrid users create --name <name> --email <email> --role cra.diagrid:editor
   # see "diagrid users create -h" for additional roles you may set for your teammates.
   ```
-  > Note: Alternatively, you can do this through the [Catalyst UI](https://catalyst.diagrid.io/).
+  > Note: Alternatively, you can do this through the [Diagrid Console](https://catalyst.diagrid.io/).
 
 ## The challenges
 
@@ -54,10 +54,10 @@ Start at #1 and follow the flags — each flag you earn is the access code for t
 
 | # | Challenge | Category | Difficulty | Points | You'll learn |
 |---|---|---|---|---|---|
-| 1 | [Welcome to Jurassic Park](challenges/ctf01-welcome/README.md) 🦕 | Catalyst | Easy | 50 | run your first agent, see it in Catalyst |
-| 2 | [Hold Onto Your Butts](challenges/ctf02-durable/README.md) 🔌 | Catalyst | Medium | 75 | crash a durable agent and watch it resume right where it left off |
-| 3 | [Access the Security Grid](challenges/ctf03-mcp/README.md) 🔐 | Catalyst | Medium | 75 | register an MCP server and call its tools |
-| 4 | [Life Finds a Way](challenges/ctf04-capstone/README.md) 🦖 | Catalyst | Hard | 100 | run several agents together |
+| 1 | [Welcome to Jurassic Park](challenges/ctf01-welcome/README.md) 🦕 | Diagrid | Easy | 50 | run your first agent, see it in Diagrid |
+| 2 | [Hold Onto Your Butts](challenges/ctf02-durable/README.md) 🔌 | Diagrid | Medium | 75 | crash a durable agent and watch it resume right where it left off |
+| 3 | [Access the Security Grid](challenges/ctf03-mcp/README.md) 🔐 | Diagrid | Medium | 75 | register an MCP server and call its tools |
+| 4 | [Life Finds a Way](challenges/ctf04-capstone/README.md) 🦖 | Diagrid | Hard | 100 | run several agents together |
 
 ## The park control system (park-systems)
 

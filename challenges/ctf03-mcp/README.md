@@ -1,11 +1,11 @@
 # Challenge 3 — Access the Security Grid 🔐
 
-**Category:** Catalyst · **Difficulty:** Medium · **Points:** 75
+**Category:** Diagrid · **Difficulty:** Medium · **Points:** 75
 
-Register an MCP server in Catalyst and let your agent (`security-grid`) call its
+Register an MCP server in Diagrid and let your agent (`security-grid`) call its
 tools. The agent reads the grid with `get_system_status`, then calls
 `unlock_paddock` with your access code and returns the flag — and you can watch
-both tool calls in the Catalyst tool-call UI.
+both tool calls in the Diagrid tool-call UI.
 
 **You need:** a model — [Ollama](https://ollama.com/download) (free, default) or an
 `OPENAI_API_KEY`; `ACCESS_CODE` = your challenge 2 flag; the park-systems URL + **bearer token**.
@@ -36,7 +36,7 @@ This challenge prints the discovered tools first — an empty list means the bea
 auth header is wrong, not that your agent is broken.
 
 The agent lists the discovered tools, but withholds the flag in the terminal. Open
-the run in the [Catalyst console](https://catalyst.diagrid.io/): the `FLAG: gc26{...}`
+the run in the [Diagrid Console](https://catalyst.diagrid.io/): the `FLAG: gc26{...}`
 line is in its workflow output, alongside the `get_system_status` and
 `unlock_paddock` calls. The flag is your access code for challenge 4.
 
@@ -66,7 +66,7 @@ in [`challenges/internal/parkmodel`](../internal/parkmodel/).
 This challenge needs **two** tool calls in sequence, so pick a model you've seen handle
 multi-step tool use — `qwen2.5:7b` and up are reliable here, as is `gpt-4o`.
 
-The flag will be in your workflow run's output in the [Catalyst UI](https://www.diagrid.io/catalyst).
+The flag will be in your workflow run's output in the [Diagrid Console](https://www.diagrid.io/catalyst).
 This value is the input for the next challenge — pass it **exactly as printed**, `gc26{}` wrapping
 included. Access codes are compared byte for byte, so a stripped wrapper is rejected and the run
 fails.

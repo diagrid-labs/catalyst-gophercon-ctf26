@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 // Command grid-ranger is one of the challenge 4 capstone agents. It secures the
-// park perimeter and registers itself under Agents in Catalyst.
+// park perimeter and registers itself under Agents in Diagrid.
 package main
 
 import (

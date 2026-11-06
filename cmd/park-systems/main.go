@@ -1,4 +1,4 @@
-// Command park-systems is the GopherCon 2026 Catalyst CTF flag-delivery MCP
+// Command park-systems is the GopherCon 2026 Diagrid CTF flag-delivery MCP
 // server. It exposes themed challenge tools over Streamable HTTP; each
 // flag-bearing tool returns its flag only when given the previous challenge's
 // flag as an access code (the Mode A unlock chain). Real flags are loaded at
@@ -53,7 +53,7 @@ func main() {
 
 	mcpHandler := mcp.NewStreamableHTTPHandler(
 		func(*http.Request) *mcp.Server { return srv },
-		// Stateless: no session affinity, so any Catalyst app can call in.
+		// Stateless: no session affinity, so any Diagrid app can call in.
 		// DisableLocalhostProtection: park-systems is a remote, bearer-authed
 		// server reached via a tunnel/reverse proxy that dials loopback; the
 		// SDK's DNS-rebinding guard (localhost listener + non-localhost Host)
