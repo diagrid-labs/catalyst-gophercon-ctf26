@@ -5,7 +5,7 @@
 //
 // Every challenge prints what its agent returned, and that reply carries the
 // flag. Participants are meant to read flags from the run's workflow output in
-// the Catalyst console, so the value is stripped on its way to the terminal —
+// the Diagrid Console, so the value is stripped on its way to the terminal —
 // the durable run still holds it, and the console is where it is claimed.
 package parkflag
 
@@ -17,7 +17,7 @@ import (
 const flagPrefix = "gc26"
 
 // notice stands in for a stripped flag value.
-const notice = "[withheld — read this run's workflow output in the Catalyst console]"
+const notice = "[withheld — read this run's workflow output in the Diagrid Console]"
 
 // flagPattern matches a whole flag value, wrapper included. It deliberately
 // matches the value anywhere rather than only on a "FLAG:" line, since a model

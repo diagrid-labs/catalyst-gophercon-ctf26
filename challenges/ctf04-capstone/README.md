@@ -1,6 +1,6 @@
 # Challenge 4 — Life Finds a Way 🦖
 
-**Category:** Catalyst · **Difficulty:** Hard · **Points:** 100
+**Category:** Diagrid · **Difficulty:** Hard · **Points:** 100
 
 The finale: **three** agents run together and each appears as its own entry under
 **Agents**. `raptor-keeper` and `grid-ranger` bring their systems online;
@@ -27,7 +27,7 @@ diagrid dev run -f catalyst.yaml --project $PROJECT   # starts all three agents
 ```
 
 `park-director` withholds the flag in the terminal. Read the final `FLAG: gc26{...}`
-from its workflow output in the [Catalyst console](https://catalyst.diagrid.io/).
+from its workflow output in the [Diagrid Console](https://catalyst.diagrid.io/).
 Welcome... to Jurassic Park.
 
 <details><summary>Alternatively:</summary>

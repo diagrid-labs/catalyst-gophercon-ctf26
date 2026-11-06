@@ -1,9 +1,9 @@
 # Challenge 2 — Hold Onto Your Butts 🔌
 
-**Category:** Catalyst · **Difficulty:** Medium · **Points:** 75
+**Category:** Diagrid · **Difficulty:** Medium · **Points:** 75
 
 A durable agent (`power-grid`) restores the grid in steps: `reroute → breakers →
-restore`. Kill it mid-run and start it again — Catalyst resumes from the last
+restore`. Kill it mid-run and start it again — Diagrid resumes from the last
 completed step. The flag appears only **after the run survives the crash**. This
 agent is deterministic — no model, so you don't even need Ollama running.
 
@@ -44,7 +44,7 @@ only unfinished work runs again.
 
 Once the retry clears, the final step calls `restore_power`. The terminal withholds
 the flag — read the `FLAG: gc26{...}` line from the run's workflow output in the
-[Catalyst console](https://catalyst.diagrid.io/). It's your submission and the
+[Diagrid Console](https://catalyst.diagrid.io/). It's your submission and the
 access code for challenge 3.
 
 <details><summary>Run locally instead</summary>
@@ -53,7 +53,7 @@ access code for challenge 3.
 dapr run --app-id power-grid --resources-path ./resources -- go run .
 ```
 
-The flag will be in your workflow run's output in the [Catalyst UI](https://www.diagrid.io/catalyst).
+The flag will be in your workflow run's output in the [Diagrid Console](https://www.diagrid.io/catalyst).
 This value is the input for the next challenge — pass it **exactly as printed**, `gc26{}` wrapping
 included. Access codes are compared byte for byte, so a stripped wrapper is rejected and the run
 fails.

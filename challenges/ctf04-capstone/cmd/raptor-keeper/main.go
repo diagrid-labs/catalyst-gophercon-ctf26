@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 
 // Command raptor-keeper is one of the challenge 4 capstone agents. It brings the
-// raptor paddock online and registers itself under Agents in Catalyst.
+// raptor paddock online and registers itself under Agents in Diagrid.
 package main
 
 import (

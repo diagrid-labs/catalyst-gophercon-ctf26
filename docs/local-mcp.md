@@ -21,9 +21,9 @@ PARK_FLAGS_FILE=./my-flags.json PARK_BEARER_TOKEN=my-token go run ./cmd/park-sys
 - Endpoint: `http://localhost:8080/mcp`
 - Header:   `Authorization: Bearer dev-token`
 
-## Register it in a Catalyst project
+## Register it in a Diagrid project
 
-If your agent runs in Catalyst and can reach your machine (e.g. via a tunnel),
+If your agent runs in Diagrid and can reach your machine (e.g. via a tunnel),
 register the MCP server exactly as in
 [catalyst-connection.md](catalyst-connection.md) but with your local/tunnel URL.
 

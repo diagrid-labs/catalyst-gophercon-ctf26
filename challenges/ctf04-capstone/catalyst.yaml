@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: BUSL-1.1
 
 # Three agents, three App IDs — each appears as its own entry under Agents in
-# Catalyst. Run them together:
+# Diagrid. Run them together:
 #   diagrid dev run -f catalyst.yaml --project <your-project>
 version: 1
 common:
